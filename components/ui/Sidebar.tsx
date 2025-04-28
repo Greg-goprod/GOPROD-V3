@@ -1,8 +1,8 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import {
   ChevronLeft,
   ChevronRight,
@@ -13,55 +13,56 @@ import {
   Tv,
   SlidersHorizontal,
   LogOut,
-} from "lucide-react";
-import { supabase } from "@/lib/supabaseClient";
-import ThemeToggle from "./ThemeToggle";
+} from 'lucide-react'
+import { supabase } from '@/lib/supabaseClient' // ✅ Correct ici
+import ThemeToggle from '@/components/ui/ThemeToggle' // ✅ Correction chemin (précise, pas relative)
+import Image from 'next/image'  // Import du composant Image de Next.js
 
 export default function Sidebar() {
-  const pathname = usePathname();
-  const [collapsed, setCollapsed] = useState(false);
-  const [logoUrl, setLogoUrl] = useState<string | null>(null);
+  const pathname = usePathname()
+  const [collapsed, setCollapsed] = useState(false)
+  const [logoUrl, setLogoUrl] = useState<string | null>(null)
 
   const navItems = [
-    { href: "/", label: "TABLEAU DE BORD", icon: LayoutDashboard },
-    { href: "/administration", label: "ADMINISTRATION", icon: UserCog },
-    { href: "/booking", label: "BOOKING", icon: CalendarCheck2 },
-    { href: "/production", label: "PRODUCTION", icon: Speaker },
-    { href: "/presse", label: "PRESSE", icon: Tv },
-    { href: "/parametres", label: "PARAMÈTRES", icon: SlidersHorizontal },
-  ];
+    { href: '/', label: 'TABLEAU DE BORD', icon: LayoutDashboard },
+    { href: '/administration', label: 'ADMINISTRATION', icon: UserCog },
+    { href: '/booking', label: 'BOOKING', icon: CalendarCheck2 },
+    { href: '/production', label: 'PRODUCTION', icon: Speaker },
+    { href: '/presse', label: 'PRESSE', icon: Tv },
+    { href: '/parametres', label: 'PARAMÈTRES', icon: SlidersHorizontal },
+  ]
 
   useEffect(() => {
     async function fetchLogo() {
       const { data, error } = await supabase
-        .from("settings")
-        .select("logo_url")
-        .eq("id", 1)
-        .single();
+        .from('settings')
+        .select('logo_url')
+        .eq('id', 1)
+        .single()
 
       if (error) {
-        console.warn("Erreur chargement logo:", error.message);
-        return;
+        console.warn('Erreur chargement logo:', error.message)
+        return
       }
 
       if (data?.logo_url) {
         const { data: publicData } = supabase.storage
-          .from("public-assets")
-          .getPublicUrl(data.logo_url);
+          .from('public-assets')
+          .getPublicUrl(data.logo_url)
 
         if (publicData?.publicUrl) {
-          setLogoUrl(publicData.publicUrl);
+          setLogoUrl(publicData.publicUrl)
         }
       }
     }
 
-    fetchLogo();
-  }, []);
+    fetchLogo()
+  }, [])
 
   return (
     <aside
       className={`relative flex flex-col justify-between h-screen p-4 border-r shadow-sm bg-white dark:bg-[#1B1035] text-gray-800 dark:text-[#FED983] transition-all duration-500 ease-in-out ${
-        collapsed ? "w-20" : "w-64"
+        collapsed ? 'w-20' : 'w-64'
       }`}
     >
       {/* Toggle Button */}
@@ -76,9 +77,11 @@ export default function Sidebar() {
       <div className="flex flex-col items-center space-y-8">
         <Link href="/" className="block">
           {logoUrl ? (
-            <img
+            <Image
               src={logoUrl}
               alt="Logo Go-Prod"
+              width={40}  // Largeur de l'image
+              height={40}  // Hauteur de l'image
               className="h-10 w-auto object-contain mx-auto logo-transition"
             />
           ) : (
@@ -94,8 +97,8 @@ export default function Sidebar() {
               href={href}
               className={`group sidebar-link ${
                 pathname === href
-                  ? "bg-gray-200 dark:bg-[#2D1A60]"
-                  : "hover:bg-gray-100 dark:hover:bg-[#2D1A60]"
+                  ? 'bg-gray-200 dark:bg-[#2D1A60]'
+                  : 'hover:bg-gray-100 dark:hover:bg-[#2D1A60]'
               }`}
             >
               <div className="flex items-center space-x-3">
@@ -122,5 +125,5 @@ export default function Sidebar() {
         </button>
       </div>
     </aside>
-  );
+  )
 }

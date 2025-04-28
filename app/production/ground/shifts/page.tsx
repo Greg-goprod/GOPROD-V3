@@ -6,7 +6,7 @@ import SectionPage from '@/components/ui/SectionPage'
 export default function ShiftsPage() {
   return (
     <SectionPage
-      title="Shifts"
+      title="SHIFTS"
       icon={<Clock className="w-6 h-6 text-primary dark:text-[#FED983]" />}
       backLink="/production/ground"
     >

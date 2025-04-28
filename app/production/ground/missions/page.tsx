@@ -6,7 +6,7 @@ import SectionPage from '@/components/ui/SectionPage'
 export default function MissionsPage() {
   return (
     <SectionPage
-      title="Missions"
+      title="MISSIONS"
       icon={<MapPinned className="w-6 h-6 text-primary dark:text-[#FED983]" />}
       backLink="/production/ground"
     >

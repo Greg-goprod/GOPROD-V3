@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { UploadCloud } from 'lucide-react'
+import Image from 'next/image'  // Importation de Image
 
 export default function SettingsLogoSection() {
   const [uploading, setUploading] = useState(false)
@@ -74,7 +75,13 @@ export default function SettingsLogoSection() {
       {fileUrl && (
         <div className="mt-4">
           <p className="text-sm text-muted-foreground">Logo actuel :</p>
-          <img src={fileUrl} alt="Logo actuel" className="mt-2 h-16 object-contain" />
+          <Image
+            src={fileUrl}
+            alt="Logo actuel"
+            width={100}  // Définir la largeur
+            height={50}  // Définir la hauteur
+            className="mt-2 object-contain"
+          />
         </div>
       )}
     </div>

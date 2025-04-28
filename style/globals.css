@@ -6,3 +6,10 @@ body {
   font-family: sans-serif;
   background-color: #f9fafb;
 }
+
+/* Personnalisation de l'état survol et actif pour les onglets */
+.group:hover,
+.group-active {
+  background-color: #2D1A60; /* Violet du survol */
+  color: #FED983; /* Jaune clair pour le texte */
+}

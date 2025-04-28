@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { Users } from 'lucide-react'
 import SectionPage from '@/components/ui/SectionPage'
+import Image from 'next/image' // Importation du composant Image de Next.js
 
 export default function ChauffeursPage() {
   const [chauffeurs, setChauffeurs] = useState<any[]>([])
@@ -35,7 +36,7 @@ export default function ChauffeursPage() {
 
   return (
     <SectionPage
-      title="Chauffeurs"
+      title="CHAUFFEURS"
       icon={<Users className="w-6 h-6 text-primary dark:text-[#FED983]" />}
       backLink="/production/ground"
     >
@@ -50,7 +51,7 @@ export default function ChauffeursPage() {
               key={chauffeur.id}
               className="flex items-center space-x-4 p-4 border rounded-xl shadow-sm hover:shadow-md transition-shadow dark:border-gray-700"
             >
-              <img
+              <Image
                 src={
                   chauffeur.photo_url ??
                   `https://ui-avatars.com/api/?name=${encodeURIComponent(
@@ -58,6 +59,8 @@ export default function ChauffeursPage() {
                   )}&background=random`
                 }
                 alt={`Photo de ${chauffeur.first_name} ${chauffeur.last_name}`}
+                width={56} // Largeur pour l'image
+                height={56} // Hauteur pour l'image
                 className="w-14 h-14 rounded-full object-cover"
               />
               <div>

@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
-import { Truck, LayoutGrid, List, Search, ChevronDown, ChevronUp } from 'lucide-react'
-import Link from 'next/link'
+import { Truck, LayoutGrid, List, ChevronDown, ChevronUp } from 'lucide-react'
 import VehicleModal from '@/components/ui/VehicleModal'
+import SectionPage from '@/components/ui/SectionPage'
+import Image from 'next/image' // Importation du composant Image de Next.js
 
 export default function VehiculesPage() {
   const [vehicules, setVehicules] = useState<any[]>([])
@@ -56,23 +57,14 @@ export default function VehiculesPage() {
   }
 
   return (
-    <div className="p-6">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center space-x-3">
-          <Link
-            href="/production/ground"
-            className="w-8 h-8 rounded-full flex items-center justify-center border hover:bg-gray-100 dark:hover:bg-[#2D1A60] transition"
-          >
-            <Truck className="w-4 h-4" />
-          </Link>
-          <Truck className="w-6 h-6 text-primary" />
-          <h1 className="text-2xl font-bold uppercase tracking-wide text-gray-800 dark:text-[#FED983]">
-            Véhicules
-          </h1>
-        </div>
-
-        <div className="flex space-x-2 items-center">
+    <SectionPage
+      title="VÉHICULES"
+      icon={<Truck className="w-6 h-6 text-primary dark:text-[#FED983]" />}
+      backLink="/production/ground"
+    >
+      {/* Barre d'outils */}
+      <div className="flex justify-between mb-6">
+        <div className="flex items-center space-x-2">
           <input
             type="text"
             value={search}
@@ -103,7 +95,7 @@ export default function VehiculesPage() {
         </div>
       </div>
 
-      {/* LIST VIEW */}
+      {/* Vue LISTE */}
       {view === 'list' && (
         <div className="border rounded-lg overflow-hidden">
           <div className="grid grid-cols-6 gap-2 bg-muted text-xs font-bold text-gray-700 dark:text-[#FED983] px-4 py-2">
@@ -149,7 +141,7 @@ export default function VehiculesPage() {
         </div>
       )}
 
-      {/* GRID VIEW */}
+      {/* Vue GRILLE */}
       {view === 'grid' && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           {filtered.map((v) => (
@@ -160,9 +152,11 @@ export default function VehiculesPage() {
             >
               <div className="flex items-center space-x-4">
                 {v.photo_url ? (
-                  <img
+                  <Image
                     src={v.photo_url}
                     alt="Photo véhicule"
+                    width={64} // Largeur pour l'image
+                    height={64} // Hauteur pour l'image
                     className="w-16 h-16 rounded-full object-cover"
                   />
                 ) : (
@@ -185,7 +179,7 @@ export default function VehiculesPage() {
         </div>
       )}
 
-      {/* MODALE */}
+      {/* Modal véhicule */}
       {selectedVehicle && (
         <VehicleModal
           vehicle={selectedVehicle}
@@ -193,6 +187,6 @@ export default function VehiculesPage() {
           onClose={() => setIsModalOpen(false)}
         />
       )}
-    </div>
+    </SectionPage>
   )
 }
